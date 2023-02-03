@@ -1,4 +1,4 @@
-const { User, Thought, Reaction } =require("../models");
+const { User, Thought, } =require("../models");
 
 module.exports = {
     // Get all thoughts
@@ -55,5 +55,27 @@ module.exports = {
             res.status(404).json({ message: "Thought deleted but no user found associated with thought"})
         }
         res.status(200).json(thought)
-    }
+    },
+    async createReaction(req, res) {
+        const reaction = await Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $addToSet: { reactions: req.body } },
+            { new: true }
+        )
+        if(!reaction) {
+            res.status(404).json({ message: "No thought found with this id!"})
+        } 
+        res.status(200).json(reaction)
+    },
+    async deleteReaction(req, res) {
+        const reaction = await Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $pull: { reactions: { reactionId: req.params.reactionId } } },
+            { new: true }    
+        )
+        if(!reaction) {
+            res.status(404).json({ message: "No reaction found with this id!"})
+        }
+        res.status(200).json(reaction)
+    } 
 };
