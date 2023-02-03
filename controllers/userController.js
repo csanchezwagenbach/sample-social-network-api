@@ -40,5 +40,23 @@ module.exports = {
         } 
         const thoughts = await Thought.deleteMany({ _id: { $in: user.thoughts }})
         res.status(200).json(user)
+     },
+     async createFriend(req, res) {
+        const friend = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req.params.friendId } },
+            { new: true }
+        )
+        if(!friend) {
+            res.status(404).json(err)
+        }
+        res.status(200).json(friend)
+     },
+     async deleteFriend(req, res) {
+        const friend = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: { _id: req.params.friendId } } },
+            { new: true }
+        )
      }
 };
