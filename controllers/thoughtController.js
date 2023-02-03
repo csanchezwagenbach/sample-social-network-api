@@ -35,7 +35,8 @@ module.exports = {
         const thought = await Thought.findOneAndUpdate(
             {_id: req.params.thoughtId },
             { $set: req.body }
-        );{
+        );
+        if(!thought){
             res.status(404).json({ message: "No thought with this id!" })
         } 
         res.status(200).json(thought)
