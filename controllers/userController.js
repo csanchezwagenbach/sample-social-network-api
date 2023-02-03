@@ -23,11 +23,23 @@ module.exports = {
             res.status(500).json(err);
         } res.status(200).json(user)
      },
+     async updateUser(req, res) {
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $set: req.body }
+        );
+        if (!user) {
+            res.status(404).json({ message: "No user with this id!" })
+        }
+        res.status(200).json(user)
+     },
      // Delete a user and associated Thoughts
      async deleteUser(req, res) {
-        const user = await User.findOneAndDelete({ _id: req.params.userId })
+        const user = await User.findOneAndDelete({ _id: req.params.userId });
         if(!user) {
             res.status(404).json({ message: "No user with that ID" })
-        } res.status(200).json(user)
+        } 
+        const thoughts = await Thought.deleteMany({ _id: { $in: user.thoughts }})
+        res.status(200).json(user)
      }
 };
