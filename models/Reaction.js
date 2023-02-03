@@ -1,5 +1,7 @@
 const { Schema, Types } = require("mongoose");
 
+// Reactions are only a schema that will be created when they are directly inserted into a Thoughts
+
 const reactionSchema = new Schema(
     {
         reactionId: {

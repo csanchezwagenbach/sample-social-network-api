@@ -22,6 +22,7 @@ module.exports = {
             res.status(500).json(err);
         } res.status(200).json(user)
      },
+     // Update a user
      async updateUser(req, res) {
         const user = await User.findOneAndUpdate(
             { _id: req.params.userId },
@@ -41,6 +42,7 @@ module.exports = {
         const thoughts = await Thought.deleteMany({ _id: { $in: user.thoughts }})
         res.status(200).json(user)
      },
+     // Add a given user to another given user's friends array
      async createFriend(req, res) {
         const friend = await User.findOneAndUpdate(
             { _id: req.params.userId },
@@ -52,11 +54,16 @@ module.exports = {
         }
         res.status(200).json(friend)
      },
+     // Remove a given user from another given user's friends array
      async deleteFriend(req, res) {
         const friend = await User.findOneAndUpdate(
             { _id: req.params.userId },
             { $pull: { friends: { _id: req.params.friendId } } },
             { new: true }
         )
+        if(!friend) {
+            res.status(404).json(err)
+        }
+        res.status().json(err)
      }
 };

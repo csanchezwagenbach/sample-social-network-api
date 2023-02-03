@@ -9,6 +9,7 @@ module.exports = {
         }
         res.status(200).json(thoughts)
     },
+    // Get a single thought 
     async getSingleThought(req, res) {
         const thought = await Thought.findOne({_id: req.params.thoughtId })
         if(!thought) {
@@ -16,6 +17,7 @@ module.exports = {
         } 
         res.status(200).json(thought)
     },
+    // Create a thought and add the thought to the associated user
     async createThought(req, res) {
         const thought = await Thought.create(req.body);
         if(!thought) {
@@ -31,6 +33,7 @@ module.exports = {
         }
         res.status(200).json(thought)
     },
+    // Update a given thought
     async updateThought(req, res) {
         const thought = await Thought.findOneAndUpdate(
             {_id: req.params.thoughtId },
@@ -41,6 +44,7 @@ module.exports = {
         } 
         res.status(200).json(thought)
     },
+    // Delete a given thought
     async deleteThought(req, res) {
         const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
         if(!thought) {
@@ -56,6 +60,7 @@ module.exports = {
         }
         res.status(200).json(thought)
     },
+    // Create a reaction to a given thought
     async createReaction(req, res) {
         const reaction = await Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
@@ -67,6 +72,7 @@ module.exports = {
         } 
         res.status(200).json(reaction)
     },
+    // Delete a given reaction to a given thought
     async deleteReaction(req, res) {
         const reaction = await Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
