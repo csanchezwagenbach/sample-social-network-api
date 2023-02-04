@@ -50,7 +50,7 @@ module.exports = {
             { new: true }
         )
         if(!friend) {
-            res.status(404).json(err)
+            res.status(404).json()
         }
         res.status(200).json(friend)
      },
@@ -58,12 +58,12 @@ module.exports = {
      async deleteFriend(req, res) {
         const friend = await User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $pull: { friends: { _id: req.params.friendId } } },
+            { $pull: { friends:req.params.friendId } },
             { new: true }
         )
         if(!friend) {
-            res.status(404).json(err)
+            res.status(404)
         }
-        res.status().json(err)
+        res.status(200).json(friend)
      }
 };
